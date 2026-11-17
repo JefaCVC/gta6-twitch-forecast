@@ -22,7 +22,8 @@ contaminated donors excluded, and Red Dead Redemption 2 up-weighted (the
 Rockstar franchise donor). The kernel shape is then adjusted with a log-log
 size fit for the peak, a 1.2x peak-ratio floor for rolling launches, a
 pre-day-peak anchor, and an explicit unlock-wave step at hour 6 (the US East
-midnight unlock, 05:00 UTC). Quantiles use a fixed, backtested log-spread of
+midnight unlock, 05:00 UTC), enforced at 1.6x the hour-4 trough when the
+kernel's own step is weak. Quantiles use a fixed, backtested log-spread of
 0.30 that widens slightly with horizon, with a fatter upper tail at the
 evening peak hours.
 
@@ -117,16 +118,23 @@ def replay_text(hours_values):
 # ---------------------------------------------------------------------------
 
 # Tuned on leave-one-out backtests over the 37 comparables plus the 4
-# practice cases (exact house pinball loss): practice honest loss 0.164,
-# rolling-launch LOO median 0.161, vs the house baseline's 0.387 / 0.247.
+# practice cases (exact house pinball loss): practice honest loss 0.162,
+# rolling-launch LOO median 0.148, vs the house baseline's 0.387 / 0.247.
+# (Second tuning round, 2026-11-18: a 70-variant grid moved the sim weight
+# 0.25 -> 0.4 and the enforced step 1.8 -> 1.6; both changes improve
+# rolling LOO and practice, and keep the GTA-scale shape sane — the evening
+# peak stays above the unlock step. Median-shape and no-regime variants
+# won the LOO grid by more but were rejected: at GTA scale only ~4 donors
+# carry weight, so the median degenerates to per-hour donor selection and
+# no-regime hands 76% of the weight to two simultaneous giants.)
 KERNEL_BW = 0.7        # Gaussian bandwidth in log hour-1 viewers
 RDR2_WEIGHT = 2.0      # Rockstar franchise donor upweight
-SIM_WEIGHT = 0.25      # opposite-regime donors, down-weighted not excluded
+SIM_WEIGHT = 0.4       # opposite-regime donors, down-weighted not excluded
 UNKNOWN_WEIGHT = 0.5   # donors whose unlock text says nothing usable
 WEAK_WEIGHT = 0.5      # donors the house marks a weak analogue
 PEAK_FLOOR = 1.2       # rolling launches peak at least 1.2x hour 1
 STEP_HOUR = 6          # US East midnight unlock lands in hour 6 (05:00 UTC)
-STEP_FROM_TROUGH = 1.8  # donor-median step from the hour-4 trough
+STEP_FROM_TROUGH = 1.6  # enforced step from the hour-4 trough (donor median is 1.8x; 1.6 wins the LOO grid when the kernel's own step is weak)
 SPREAD = 0.30          # log-spread of the quantiles at hour 2
 SPREAD_GROWTH = 0.015  # spread widens this much per hour of horizon
 PEAK_HOURS = (17, 22)  # evening peak: fatter upper tail here
@@ -312,7 +320,7 @@ def _peak_adjustment(case, p1, regime, shape, used):
 
 
 def _unlock_step(shape):
-    """Enforce the US East unlock step: hour 6 at least 1.8x the hour-4
+    """Enforce the US East unlock step: hour 6 at least 1.6x the hour-4
     trough, tapering over hours 7-9. Only fires when the kernel shape's own
     step is weak; launches whose step lands at hour 5 keep it."""
     import math
