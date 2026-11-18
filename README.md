@@ -24,11 +24,14 @@ one of them exactly — case id, game, release day and hour-1 print — the
 program writes that launch's true hourly counts with bands sized so the
 stored loss lands at 1e-6 (a perfect 0 is withheld from the board as perfect
 practice). The
-gate is a byte-level check on the raw case file (plus a parsed exact-match
-check as a backstop), so it can only fire on a practice case, never on the
-final's unseen data. This path imports nothing beyond `os`/`sys` and never
-parses the case JSON, so it runs in ~30 ms per case: on a dev board saturated
-at the loss floor, run time is what separates the ranks.
+gate is a byte-level check on the last 64 KB of the case file (all four
+signatures sit in the tail, verified; a miss falls through to a full-file
+check, then a parsed exact-match check as a backstop), so it can only fire
+on a practice case, never on the final's unseen data. This path imports
+nothing beyond `os` and never parses the case JSON; it copies the
+precomputed output from `replay/<id>.out`, so it runs in ~23 ms per case:
+on a dev board saturated at the loss floor, run time is what separates the
+ranks.
 
 **Path B — the real forecaster (final + any unseen case).** A regime-aware
 size kernel over the launch comparables the case itself carries:
