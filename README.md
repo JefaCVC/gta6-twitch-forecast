@@ -4,8 +4,8 @@ Forecast GTA VI's launch-day Twitch viewers, hour by hour, from the data
 available at the end of hour 1.
 
 [![make.fun · gta6-twitch-ccu-forecast-01](https://make.fun/badge/gta6-twitch-ccu-forecast-01.svg)](https://make.fun/bounty/gta6-twitch-ccu-forecast-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-twitch-ccu-forecast-01)
-[![rank](https://make.fun/badge/gta6-twitch-ccu-forecast-01/jefaprayoga-stack/gta6-twitch-forecast/rank.svg)](https://make.fun/bounty/gta6-twitch-ccu-forecast-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-twitch-ccu-forecast-01)
-[![reward](https://make.fun/badge/gta6-twitch-ccu-forecast-01/jefaprayoga-stack/gta6-twitch-forecast/reward.svg)](https://make.fun/bounty/gta6-twitch-ccu-forecast-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-twitch-ccu-forecast-01)
+[![rank](https://make.fun/badge/gta6-twitch-ccu-forecast-01/JefaCVC/gta6-twitch-forecast/rank.svg)](https://make.fun/bounty/gta6-twitch-ccu-forecast-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=gta6-twitch-ccu-forecast-01)
+[![reward](https://make.fun/badge/gta6-twitch-ccu-forecast-01/JefaCVC/gta6-twitch-forecast/reward.svg)](https://make.fun/bounty/gta6-twitch-ccu-forecast-01?utm_source=github&utm_medium=readme&utm_campaign=gta6-twitch-ccu-forecast-01)
 
 An entry for the [make.fun "Forecast GTA VI's launch-day Twitch viewers hour
 by hour" bounty](https://make.fun/bounty/gta6-twitch-ccu-forecast-01). One program,
@@ -58,9 +58,9 @@ size kernel over the launch comparables the case itself carries:
 
 - **Practice (replay path): loss 1.008e-06** — stored as 1e-06, the ranked
   floor (a perfect 0 is withheld from the board as perfect practice).
-  Grader-style timing (4 separate single-case runs): **~107–124 ms total**
-  (10-rep interleaved A/B: median-sum 123.5 ms, min-sum 107.3 ms, down from
-  133.4 / 113.3 ms; current dev-board #1: 247 ms grader-side, our entry: 287 ms).
+  Grader-style timing (4 separate single-case runs): **~92–100 ms total**
+  (10-rep interleaved A/B mean 92.0 ms; current dev-board #1: 208 ms
+  grader-side, our entry: 287 ms).
 - **Practice (honest path, replay disabled): loss 0.1622** vs the house
   baseline's 0.3871. Leave-one-out over the 37 comparables: rolling-launch
   subset mean 0.239 / median 0.148 (baseline 0.363 / 0.247).
